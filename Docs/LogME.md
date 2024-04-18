@@ -1,5 +1,3 @@
-Here's a structured document similar to the template, detailing the Logarithm of Maximum Evidence (LogME) metric, a useful measure for assessing the transferability of pre-trained models in machine learning, especially in transfer learning scenarios.
-
 ### Logarithm of Maximum Evidence (LogME): A Transferability Metric
 
 The Logarithm of Maximum Evidence (LogME) is a computational method used to evaluate the transferability of pre-trained models without the need for fine-tuning. This metric provides a quantitative assessment of how well a pre-trained model can be expected to perform on a new task, based on the features extracted from the model.
@@ -68,5 +66,3 @@ print("Calculated LogME:", logME_value)
 ### Reference
 
 Bao, Yajie, et al. "An empirical analysis of pre-trained model transferability." In 2021 International Conference on Machine Learning (ICML), pp. 2309-2313. 2021.
-
-This structured document provides a conceptual overview, mathematical basis, and a practical example of how to calculate LogME, emphasizing its role in assessing the transferability of pre-trained models in machine learning tasks.
