@@ -38,6 +38,10 @@ And suppose these samples belong to classes A, A, and B respectively. We first c
 
 These steps give a simplistic manual calculation of the H-score, though actual implementations would use libraries to handle matrix operations and more complex data structures.
 
+### Reference
+
+Bao, Yajie, Yang Li, Shao-Lun Huang, Lin Zhang, Lizhong Zheng, Amir Zamir, and Leonidas Guibas. "An information-theoretic approach to transferability in task transfer learning." In 2019 IEEE international conference on image processing (ICIP), pp. 2309-2313. IEEE, 2019.
+
 ```python
 import numpy as np
 
