@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.optimize import minimize
+from numpy.linalg import inv, det, slogdet
 
 def h_score(features, labels):
     # Ensure the features are a NumPy array
@@ -31,8 +33,6 @@ def h_score(features, labels):
     h_score = np.trace(np.dot(sigma_f_inv, sigma_z))
     
     return h_score
-
-import numpy as np
 
 def shrinkage_based_h_score(features, labels, alpha):
     # Convert features to a numpy array
@@ -70,19 +70,58 @@ def shrinkage_based_h_score(features, labels, alpha):
     return h_score
 
 
+def log_evidence(alpha, beta, F, y):
+    D, n = F.shape[1], len(y)
+    identity_matrix = np.eye(D)
+    F_transpose = F.T
+
+    # Compute the matrix A
+    A = alpha * identity_matrix + beta * np.dot(F_transpose, F)
+    
+    # Compute the vector m
+    m = beta * np.dot(inv(A), np.dot(F_transpose, y))
+    
+    # Compute the logarithm of the evidence
+    _, logdet_A = slogdet(A)
+    evidence = 0.5 * (n * np.log(beta) + D * np.log(alpha) - beta * np.dot(y - np.dot(F, m), y - np.dot(F, m)) - alpha * np.dot(m, m) - logdet_A)
+    return -evidence  # Negative because we minimize in the optimizer
+
+def logME(features, labels):
+    # Initial guesses for alpha and beta
+    initial_alpha = 1.0
+    initial_beta = 1.0
+
+    # Objective function to be minimized
+    def objective(params):
+        alpha, beta = params
+        return log_evidence(alpha, beta, features, labels)
+    
+    # Minimization of the negative log evidence
+    result = minimize(objective, [initial_alpha, initial_beta], bounds=((1e-5, None), (1e-5, None)))
+    alpha_opt, beta_opt = result.x
+    
+    # Calculate the maximum log evidence using optimized parameters
+    max_log_evidence = -log_evidence(alpha_opt, beta_opt, features, labels)
+    
+    return max_log_evidence
+
+
 if __name__ == '__main__':
     # Example data
     #features = np.array([[1, 4], [9, 16]])  # Squared features from class A and B
     #labels = np.array([0, 1])  # Class labels
 
     features = np.array([[2, 3], [0, 1], [1, 3]])
-    labels = np.array(['A', 'A', 'B'])
+    labels = np.array([1, 1, 0])
 
     # Set the shrinkage coefficient
     alpha = 0.1
 
     # Calculate the shrinkage-based H-score
-    sh_score = shrinkage_based_h_score(features, labels, alpha)
-    h_score = h_score(features, labels)
-    print("Shrinkage-based H-score:", sh_score)
-    print("H-score:", h_score)
+    sh = shrinkage_based_h_score(features, labels, alpha)
+    h = h_score(features, labels)
+    lme = logME(features, labels)
+
+    print("Shrinkage-based H-score:", sh)
+    print("H-score:", h)
+    print("LogME:", lme)
