@@ -31,8 +31,6 @@ In summary, the modified H-score provides a more practical and theoretically sou
 
 ## Example
 
-Certainly! Let’s walk through a simplified example of calculating the shrinkage-based H-score \(H_\alpha(f)\) by hand. We'll simplify the calculations and use small dimensions to keep everything comprehensible.
-
 ### Simplified Example Setup
 
 Imagine a scenario where we have a feature space with 2 features and samples from two classes:

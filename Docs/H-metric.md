@@ -1,3 +1,5 @@
+## H-score
+
 The H-score is a measure of transferability in the context of machine learning, particularly in tasks involving transfer learning. It essentially quantifies how well a source model or dataset can transfer its knowledge to a target model or dataset. The H-score is often used to compare the effectiveness of different pre-trained models when adapted to new tasks.
 
 ### Mathematical Definition of H-score:
